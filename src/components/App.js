@@ -1,10 +1,20 @@
 import '../styles/App.scss';
 import {useState} from "react";
 function App() {
-  let  [numberOfErrors, setNumberOfErrors] = useState(0)
+  const  [numberOfErrors, setNumberOfErrors] = useState(0)
 
   const handleClick = () => {
     setNumberOfErrors(numberOfErrors + 1);
+  }
+  const [lastLetter, setlastLetter] = useState('')
+
+  const handleInput = (event) => {
+    const regExInput = /^[a-zA-Z]|[à-ü]|[À-Ü]+$/;
+    if (regExInput.test(event.target.value)){
+      setlastLetter(event.target.value);
+    } else {
+      setlastLetter('');
+    }
   }
 
   return (
@@ -48,6 +58,8 @@ function App() {
               type="text"
               name="last-letter"
               id="last-letter"
+              value={lastLetter}
+              onInput={handleInput}
             />
           </form>
         </section>
@@ -66,7 +78,7 @@ function App() {
           <span className="error-2 line"></span>
           <span className="error-1 line"></span>
         </section>
-        <button onClick={handleClick}>Incrementar</button>
+        <button className="button" onClick={handleClick}>Incrementar</button>
       </main>
     </div>
   );
