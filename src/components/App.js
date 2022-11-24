@@ -2,17 +2,32 @@ import '../styles/App.scss';
 import {useState} from "react";
 function App() {
   const  [numberOfErrors, setNumberOfErrors] = useState(0)
+  const [lastLetter, setlastLetter] = useState('')
+  const [word, setWord] = useState('katakroker')
+  const [userLastLetter, setUserLastLetter] = useState([])
 
   const handleClick = () => {
     setNumberOfErrors(numberOfErrors + 1);
   }
-  const [lastLetter, setlastLetter] = useState('')
+
+  const renderSolutionLetters = () => {
+    const wordLetters = word.split('');
+     return wordLetters.map((eachLetter, index) => {
+      if (eachLetter.includes(userLastLetter)){
+       return <li key={index} className="letter">{eachLetter}</li>
+    } else {
+      return <li key={index} className="letter"></li>
+    };
+  })
+  }
 
   const handleInput = (event) => {
+    
     const regExInput = /^[a-zA-Z]|[à-ü]|[À-Ü]+$/;
     if (regExInput.test(event.target.value)){
       setlastLetter(event.target.value);
-    } else {
+      setUserLastLetter([...userLastLetter, event.target.value]);
+     } else {
       setlastLetter('');
     }
   }
@@ -27,16 +42,7 @@ function App() {
           <div className="solution">
             <h2 className="title">Solución:</h2>
             <ul className="letters">
-              <li className="letter">k</li>
-              <li className="letter">a</li>
-              <li className="letter"></li>
-              <li className="letter">a</li>
-              <li className="letter">k</li>
-              <li className="letter">r</li>
-              <li className="letter"></li>
-              <li className="letter">k</li>
-              <li className="letter">e</li>
-              <li className="letter">r</li>
+              {renderSolutionLetters()}
             </ul>
           </div>
           <div className="error">
