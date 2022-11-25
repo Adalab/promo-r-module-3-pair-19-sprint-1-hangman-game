@@ -5,20 +5,24 @@ function App() {
   const [lastLetter, setlastLetter] = useState('')
   const [word, setWord] = useState('katakroker')
   const [userLastLetter, setUserLastLetter] = useState([])
-
-  const handleClick = () => {
-    setNumberOfErrors(numberOfErrors + 1);
-  }
-
+ // setNumberOfErrors(numberOfErrors + 1);
   const renderSolutionLetters = () => {
     const wordLetters = word.split('');
      return wordLetters.map((eachLetter, index) => {
-      if (eachLetter.includes(userLastLetter)){
+      if (userLastLetter.includes(eachLetter)){
        return <li key={index} className="letter">{eachLetter}</li>
     } else {
       return <li key={index} className="letter"></li>
     };
   })
+  }
+
+  const renderErrorLetters = () => {
+    return userLastLetter.map((eachLetter, index) => {
+      if (!word.includes(eachLetter)){
+       return <li key={index} className="letter">{eachLetter}</li>
+      };
+   })
   }
 
   const handleInput = (event) => {
@@ -48,11 +52,7 @@ function App() {
           <div className="error">
             <h2 className="title">Letras falladas:</h2>
             <ul className="letters">
-              <li className="letter">f</li>
-              <li className="letter">q</li>
-              <li className="letter">h</li>
-              <li className="letter">p</li>
-              <li className="letter">x</li>
+              {renderErrorLetters()}
             </ul>
           </div>
           <form className="form">
@@ -84,7 +84,6 @@ function App() {
           <span className="error-2 line"></span>
           <span className="error-1 line"></span>
         </section>
-        <button className="button" onClick={handleClick}>Incrementar</button>
       </main>
     </div>
   );
